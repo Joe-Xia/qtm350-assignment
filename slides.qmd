@@ -1,0 +1,75 @@
+---
+title: "WDI 2022 Analysis"
+author: "Joe Xia"
+format:
+  revealjs:
+    theme: dark
+    embed-resources: true
+    transition: slide
+---
+
+# WDI 2022 Analysis
+
+## Research Question 1
+How is inflation related to GDP?
+
+## Result 1
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv("wdi.csv")
+df.head()
+
+selected = df[[
+    "inflation_rate",
+    "gdp_growth_rate",
+    "unemployment_rate"
+]]
+#| echo: false
+#| label: scatter
+#| fig-cap: "Inflation vs GDP"
+plt.figure()
+plt.scatter(
+    df["inflation_rate"],
+    df["gdp_growth_rate"]
+)
+plt.xlabel("Inflation Rate")
+plt.ylabel("GDP Growth Rate")
+plt.title("Inflation rate vs GDP Growth Rate")
+plt.show()
+```
+
+## Research Question 2
+Do countries with high unemployment rate also have high inflation rate?
+
+## Result 2
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv("wdi.csv")
+df.head()
+
+selected = df[[
+    "inflation_rate",
+    "gdp_growth_rate",
+    "unemployment_rate"
+]]
+#| echo: false
+#| label: bar-chart
+#| fig-cap: "Inflation Rate of Countries with Highest Unemployment Rates"
+top5 = df.sort_values(
+    "unemployment_rate",
+    ascending=False
+).head(5)
+
+plt.figure()
+plt.bar(top5["country"],
+        top5["inflation_rate"])
+plt.xlabel("Country")
+plt.ylabel("Inflation Rate")
+plt.title("Inflation Rate of Countries with Highest Unemployment Rates")
+plt.show()
+```
+
+## Conclusion
+- We see that GDP growth rate is positively correlated with inflation rate. This is because inflation rate is a part of GDP growth rate. To find the real GDP growth rate, we need to substract the inflation rate. Countries with high unemployment rates also tend to have higher inflation rate.
